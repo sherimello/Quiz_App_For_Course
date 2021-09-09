@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Quiz App For Course</string>
     <string name="_0_25">0/25</string>
+    <string name="answer">answer</string>
+    <string name="_0">0</string>
+    <string name="dummy_question">An important lesson learned in online political campaigns in recent years and other collaborative efforts that had online components is</string>
+    <string name="dummy1">a. people much prefer to do their own thing and not work in groups</string>
+    <string name="dummy2">b. there is always a couple people who disrupt the work of others in the group</string>
+    <string name="dummy3">c. people need to be able to meet face to face at times as well as online</string>
+    <string name="dummy4">d. social media has still not lived up to its promise of helping people collaborate</string>
+    <string name="sheri"> khsgdkhhskfh </string>
+
 </resources>

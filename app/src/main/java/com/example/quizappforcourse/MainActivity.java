@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.TextView;
+
+import com.example.quizappforcourse.classes.WidgetControllereClass;
 
 public class MainActivity extends AppCompatActivity {
 
     private View view_progress;
-    private double scale = 0.025;
+    private TextView text_question_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,23 +21,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         view_progress = findViewById(R.id.view_progress);
+        text_question_count = findViewById(R.id.text_question_count);
 
-        updateProgress();
+        new WidgetControllereClass(view_progress, text_question_count).updateProgress();
 
     }
 
-    private void updateProgress() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                view_progress.animate().scaleX((float) scale).setDuration(700).setInterpolator(new OvershootInterpolator());
-//                view_progress.setScaleX((float) scale);
-                scale += 0.025;
-                if (scale > 1) {
-                    return;
-                }
-                updateProgress();
-            }
-        }, 1000);
-    }
 }

@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="17dp"
@@ -56,5 +57,133 @@
 
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/card_answer"
+        android:layout_below="@+id/card_progress"
+        android:layout_margin="17dp"
+        app:cardBackgroundColor="@color/light_navy_blue"
+        app:cardCornerRadius="17dp"
+        app:cardElevation="17dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="11dp"
+                    android:background="@drawable/rounded_stroke">
+
+                    <TextView
+                        android:id="@+id/text_counter"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerInParent="true"
+                        android:fontFamily="@font/montserrat"
+                        android:gravity="center"
+                        android:text="@string/_0"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/text_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="11dp"
+                    android:fontFamily="@font/bontserrat_bold"
+                    android:gravity="center"
+                    android:text="@string/dummy_question"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_marginTop="9dp"
+                    android:background="@drawable/rounded_bg"
+                    android:gravity="center"
+                    android:padding="11dp"
+                    android:text="@string/dummy1"
+                    android:textColor="@color/white" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_marginTop="9dp"
+                    android:background="@drawable/rounded_bg"
+                    android:gravity="center"
+                    android:padding="11dp"
+                    android:text="@string/dummy2"
+                    android:textColor="@color/white" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_marginTop="9dp"
+                    android:background="@drawable/rounded_bg"
+                    android:gravity="center"
+                    android:padding="11dp"
+                    android:text="@string/dummy3"
+                    android:textColor="@color/white" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginRight="17dp"
+                    android:layout_marginTop="9dp"
+                    android:background="@drawable/rounded_bg"
+                    android:gravity="center"
+                    android:padding="11dp"
+                    android:text="@string/dummy4"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="11dp"
+        app:cardBackgroundColor="@color/light_navy_blue"
+        app:cardCornerRadius="1000dp"
+        app:cardElevation="17dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="17dp"
+            android:drawablePadding="11dp"
+            android:fontFamily="@font/bontserrat_bold"
+            android:includeFontPadding="false"
+            android:text="@string/answer"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:drawableStartCompat="@drawable/done"
+            app:drawableTint="@color/white" />
+
+
+    </androidx.cardview.widget.CardView>
+
 
 </RelativeLayout>
