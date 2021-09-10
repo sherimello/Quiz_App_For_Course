@@ -35,21 +35,4 @@ public class WidgetControllereClass {
         }, 1000);
     }
 
-//    public void updateProgress() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                text_question_count.setText(MessageFormat.format("{0}/25", count));
-//                count++;
-//                view_progress.animate().scaleX((float) scale).setDuration(700).setInterpolator(new OvershootInterpolator());
-////                view_progress.setScaleX((float) scale);
-//
-//                if (scale > 1) {
-//                    return;
-//                }
-//                scale += 0.025;
-//                updateProgress();
-//            }
-//        }, 1000);
-//    }
 }

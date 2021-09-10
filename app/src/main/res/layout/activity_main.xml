@@ -7,6 +7,7 @@
     android:background="#2E334E"
     tools:context=".MainActivity">
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card_progress"
         android:layout_width="match_parent"
@@ -59,6 +60,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_questions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/card_answer"
@@ -69,9 +71,10 @@
         app:cardElevation="17dp">
 
         <ScrollView
+            android:id="@+id/scroll_contents"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,44 +110,51 @@
                     android:textColor="@color/white" />
 
                 <TextView
+                    android:id="@+id/text_option1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="17dp"
-                    android:layout_marginRight="17dp"
                     android:layout_marginTop="9dp"
+                    android:layout_marginRight="17dp"
                     android:background="@drawable/rounded_bg"
                     android:gravity="center"
                     android:padding="11dp"
                     android:text="@string/dummy1"
                     android:textColor="@color/white" />
+
                 <TextView
+                    android:id="@+id/text_option2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="17dp"
-                    android:layout_marginRight="17dp"
                     android:layout_marginTop="9dp"
+                    android:layout_marginRight="17dp"
                     android:background="@drawable/rounded_bg"
                     android:gravity="center"
                     android:padding="11dp"
                     android:text="@string/dummy2"
                     android:textColor="@color/white" />
+
                 <TextView
+                    android:id="@+id/text_option3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="17dp"
-                    android:layout_marginRight="17dp"
                     android:layout_marginTop="9dp"
+                    android:layout_marginRight="17dp"
                     android:background="@drawable/rounded_bg"
                     android:gravity="center"
                     android:padding="11dp"
                     android:text="@string/dummy3"
                     android:textColor="@color/white" />
+
                 <TextView
+                    android:id="@+id/text_option4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="17dp"
-                    android:layout_marginRight="17dp"
                     android:layout_marginTop="9dp"
+                    android:layout_marginRight="17dp"
                     android:background="@drawable/rounded_bg"
                     android:gravity="center"
                     android:padding="11dp"
@@ -164,7 +174,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="11dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="11dp"
         app:cardBackgroundColor="@color/light_navy_blue"
         app:cardCornerRadius="1000dp"
         app:cardElevation="17dp">
@@ -182,6 +195,83 @@
             app:drawableStartCompat="@drawable/done"
             app:drawableTint="@color/white" />
 
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_score"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:cardElevation="21dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/progress_score"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:progressDrawable="@drawable/ring"
+                android:indeterminateOnly="false"
+                android:progress="100"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/text_score_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/bontserrat_bold"
+                android:text="@string/_0percent"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <TextView
+                android:id="@+id/text_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/progress_score"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="17dp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/awesome"
+                android:textSize="27sp" />
+
+            <Button
+                android:id="@+id/button_play_again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/bontserrat_bold"
+                android:text="@string/play_again"
+                android:layout_alignParentBottom="true"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/button_quit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/button_play_again"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="0dp"
+                android:backgroundTint="#DDD"
+                android:textColor="@color/black"
+                android:fontFamily="@font/bontserrat_bold"
+                android:text="@string/quit"
+                android:textAllCaps="false" />
+
+
+        </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
 
