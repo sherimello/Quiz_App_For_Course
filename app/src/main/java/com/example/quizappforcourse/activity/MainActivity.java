@@ -1,4 +1,4 @@
-package com.example.quizappforcourse;
+package com.example.quizappforcourse.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -12,6 +12,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.quizappforcourse.R;
 import com.example.quizappforcourse.classes.WidgetControllereClass;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -52,24 +53,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         if (v == text_option1) {
-            text_temp.setBackgroundTintList(null);
-            text_temp = text_option1;
-            text_option1.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.BG));
+            handleClicks(text_option1);
         }
         if (v == text_option2) {
-            text_temp.setBackgroundTintList(null);
-            text_temp = text_option2;
-            text_option2.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.BG));
+            handleClicks(text_option2);
         }
         if (v == text_option3) {
-            text_temp.setBackgroundTintList(null);
-            text_temp = text_option3;
-            text_option3.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.BG));
+            handleClicks(text_option3);
         }
         if (v == text_option4) {
-            text_temp.setBackgroundTintList(null);
-            text_temp = text_option4;
-            text_option4.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.BG));
+            handleClicks(text_option4);
         }
 
         if (v == card_answer) {
@@ -88,9 +81,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     scroll_contents.animate().alpha(1).setDuration(500);
                 }
             }, 500);
-
-
         }
 
+    }
+
+    private void handleClicks(TextView tv) {
+        text_temp.setBackgroundTintList(null);
+        text_temp = tv;
+        tv.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.BG));
     }
 }

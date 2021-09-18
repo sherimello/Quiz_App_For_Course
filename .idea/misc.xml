@@ -4,10 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/QuizAppForCourse/app/src/main/res/drawable-v24/rounded_bg.xml" value="0.2230769230769231" />
+        <entry key="..\:/QuizAppForCourse/app/src/main/res/drawable/choosequiz_bg_gradient.xml" value="0.22320675105485233" />
         <entry key="..\:/QuizAppForCourse/app/src/main/res/drawable/done.xml" value="0.2230769230769231" />
         <entry key="..\:/QuizAppForCourse/app/src/main/res/drawable/gradient_progress_indicator.xml" value="0.2230769230769231" />
         <entry key="..\:/QuizAppForCourse/app/src/main/res/drawable/ring.xml" value="0.2230769230769231" />
         <entry key="..\:/QuizAppForCourse/app/src/main/res/drawable/rounded_stroke.xml" value="0.2230769230769231" />
+        <entry key="..\:/QuizAppForCourse/app/src/main/res/layout/activity_choose_quiz_id.xml" value="0.21012658227848102" />
         <entry key="..\:/QuizAppForCourse/app/src/main/res/layout/activity_main.xml" value="0.2128205128205128" />
       </map>
     </option>

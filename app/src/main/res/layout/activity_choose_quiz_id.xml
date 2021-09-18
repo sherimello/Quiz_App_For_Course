@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/choosequiz_bg_gradient"
+    tools:context=".activity.ChooseQuizID">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="?actionBarSize"
+        android:fontFamily="@font/bontserrat_bold"
+        android:includeFontPadding="false"
+        android:textColor="@color/white"
+        android:text="@string/welcome_to" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/bontserrat_bold"
+        android:includeFontPadding="false"
+        android:text="@string/squiz"
+        android:textSize="35sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="?actionBarSize"
+        android:fontFamily="@font/montserrat_medium"
+        android:textColor="@color/white"
+        android:includeFontPadding="false"
+        android:text="@string/message"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="?actionBarSize"
+        android:fontFamily="@font/bontserrat_bold"
+        android:includeFontPadding="false"
+        android:textColor="@color/white"
+        android:text="@string/squiz_id"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/edit_quizID"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="11dp"
+        android:background="@drawable/rounded_bg"
+        android:fontFamily="@font/bontserrat_bold"
+        android:hint="@string/e_g_sherimello"
+        android:paddingStart="11dp"
+        android:paddingEnd="11dp"
+        android:textColor="@color/white"
+        android:textColorHint="#BFBEBE"
+        android:textSize="13sp"
+        android:textStyle="italic"
+        android:autofillHints="name"
+        android:inputType="text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/button_attend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginBottom="11dp"
+            android:backgroundTint="#9B9DB1"
+            android:fontFamily="@font/bontserrat_bold"
+            android:text="@string/attend"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</LinearLayout>
