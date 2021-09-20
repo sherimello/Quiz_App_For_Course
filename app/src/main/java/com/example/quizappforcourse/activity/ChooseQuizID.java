@@ -45,7 +45,7 @@ public class ChooseQuizID extends AppCompatActivity implements View.OnClickListe
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
-                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(dataSnapshot.child("ID").getValue()).toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(dataSnapshot.getValue()).toString(), Toast.LENGTH_SHORT).show();
                 }
             }
 
