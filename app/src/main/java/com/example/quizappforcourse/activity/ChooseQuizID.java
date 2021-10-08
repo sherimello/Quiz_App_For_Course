@@ -3,6 +3,7 @@ package com.example.quizappforcourse.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,13 +41,26 @@ public class ChooseQuizID extends AppCompatActivity implements View.OnClickListe
         // Write a message to the database
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("QuizID");
         // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
-                    Toast.makeText(getApplicationContext(), Objects.requireNonNull(dataSnapshot.getValue()).toString(), Toast.LENGTH_SHORT).show();
+
+//                if (snapshot.hasChild("-MkRKc0W5fLBS4klTmAQ")) {
+//                    Toast.makeText(getApplicationContext(), "exists!", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                Toast.makeText(getApplicationContext(), "does not exist!", Toast.LENGTH_SHORT).show(
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (Objects.requireNonNull(dataSnapshot.getValue()).toString().equals(edit_quizID.getText().toString().trim())){
+                        Toast.makeText(getApplicationContext(), "exists!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class).putExtra("quizID", edit_quizID.getText().toString().trim()));
+                        finish();
+                        return;
+                    }
                 }
+                Toast.makeText(getApplicationContext(), "doesn't exist!", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

@@ -1,34 +1,50 @@
 package com.example.quizappforcourse.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-
-import android.animation.Animator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 import com.example.quizappforcourse.R;
+import com.example.quizappforcourse.classes.QuizDataStructure;
 import com.example.quizappforcourse.classes.WidgetControllereClass;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private View view_progress;
-    private TextView text_question_count, text_option1, text_option2, text_option3, text_option4, text_temp;
+    private TextView text_question, text_question_count, text_option1, text_option2, text_option3, text_option4, text_temp;
     private CardView card_answer, card_questions;
     private ScrollView scroll_contents;
+    private String quizID;
+    private int index = 0;
+    private ArrayList<QuizDataStructure> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        quizID = getIntent().getStringExtra("quizID");
+
         view_progress = findViewById(R.id.view_progress);
         text_question_count = findViewById(R.id.text_question_count);
+        text_question = findViewById(R.id.text_question);
         text_option1 = findViewById(R.id.text_option1);
         text_option2 = findViewById(R.id.text_option2);
         text_option3 = findViewById(R.id.text_option3);
@@ -47,6 +63,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         new WidgetControllereClass(view_progress, text_question_count).updateProgress();
 
+        arrayList = new ArrayList<>();
+        getQuizData();
+
+
+    }
+
+    private void getQuizData() {
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Questions");
+        databaseReference.child(quizID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    arrayList.add(new QuizDataStructure(Objects.requireNonNull(dataSnapshot.child("que").getValue()).toString(),
+                            Objects.requireNonNull(dataSnapshot.child("_1").getValue()).toString(),
+                            Objects.requireNonNull(dataSnapshot.child("_2").getValue()).toString(),
+                            Objects.requireNonNull(dataSnapshot.child("_3").getValue()).toString(),
+                            Objects.requireNonNull(dataSnapshot.child("_4").getValue()).toString()
+                    ));
+
+                }
+
+                assignDataToUI();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    private void assignDataToUI() {
+        text_question.setText(arrayList.get(index).getQue());
+        text_option1.setText(arrayList.get(index).get_1());
+        text_option2.setText(arrayList.get(index).get_2());
+        text_option3.setText(arrayList.get(index).get_3());
+        text_option4.setText(arrayList.get(index).get_4());
     }
 
     @Override
@@ -74,12 +133,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 scroll_contents.animate().alpha(0).setDuration(500);
             }
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    card_questions.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator());
-                    scroll_contents.animate().alpha(1).setDuration(500);
-                }
+            new Handler().postDelayed(() -> {
+                card_questions.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator());
+                scroll_contents.animate().alpha(1).setDuration(500);
+                index++;
+                assignDataToUI();
             }, 500);
         }
 
