@@ -209,10 +209,10 @@
                 android:id="@+id/progress_score"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:progressDrawable="@drawable/ring"
+                android:layout_centerInParent="true"
                 android:indeterminateOnly="false"
                 android:progress="100"
-                android:layout_centerInParent="true" />
+                android:progressDrawable="@drawable/ring" />
 
             <TextView
                 android:id="@+id/text_score_percentage"

@@ -1,9 +1,11 @@
 package com.example.quizappforcourse.activity;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,11 +31,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private View view_progress;
     private TextView text_question, text_question_count, text_option1, text_option2, text_option3, text_option4, text_temp;
-    private CardView card_answer, card_questions;
+    private CardView card_answer, card_questions, card_score;
     private ScrollView scroll_contents;
-    private String quizID;
-    private int index = 0;
+    private ProgressBar progress_score;
+    private String quizID, selected_answer = "";
+    private int index = 0, score_progress = 0;
+    private long total_questions = 0;
     private ArrayList<QuizDataStructure> arrayList;
+    private ArrayList<String> user_answers, correct_answers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         text_option3 = findViewById(R.id.text_option3);
         text_option4 = findViewById(R.id.text_option4);
         card_answer = findViewById(R.id.card_answer);
+        card_score = findViewById(R.id.card_score);
+        progress_score = findViewById(R.id.progress_score);
         card_questions = findViewById(R.id.card_questions);
         scroll_contents = findViewById(R.id.scroll_contents);
 
@@ -64,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new WidgetControllereClass(view_progress, text_question_count).updateProgress();
 
         arrayList = new ArrayList<>();
+        user_answers = new ArrayList<>();
+        correct_answers = new ArrayList<>();
+
         getQuizData();
 
 
@@ -75,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         databaseReference.child(quizID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                total_questions = snapshot.getChildrenCount();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
@@ -126,6 +138,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (v == card_answer) {
 
+            if (selected_answer.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "please select an answer first...", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             card_questions.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
             if (card_questions.getScaleX() == 1) {
@@ -136,6 +153,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new Handler().postDelayed(() -> {
                 card_questions.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator());
                 scroll_contents.animate().alpha(1).setDuration(500);
+
+                //gets called when last index is reached...
+                if (index + 1 == total_questions) {
+
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Answers");
+                    databaseReference.child(quizID).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                                correct_answers.add(Objects.requireNonNull(dataSnapshot.getValue()).toString());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                    makeScoreUIVisible();
+                    return;
+                }
+
+                user_answers.add(selected_answer);
                 index++;
                 assignDataToUI();
             }, 500);
@@ -143,7 +184,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void makeScoreUIVisible() {
+
+        for (int i=0; i<correct_answers.size(); i++) {
+
+            //this portion is not working...for some reason. fix it for BDT 100.
+            if (user_answers.get(i).equals(correct_answers.get(i))) {
+
+                score_progress += (100 / correct_answers.size());
+
+            }
+        }
+
+        card_score.setVisibility(View.VISIBLE);
+
+
+        Toast.makeText(getApplicationContext(), String.valueOf(score_progress), Toast.LENGTH_SHORT).show();
+
+        ObjectAnimator progressAnimator;
+        progressAnimator = ObjectAnimator.ofInt(progress_score, "progress", 0, score_progress);
+        progressAnimator.setDuration(1000);
+        progressAnimator.setInterpolator(new OvershootInterpolator());
+        progressAnimator.start();
+    }
+
     private void handleClicks(TextView tv) {
+        selected_answer = tv.getText().toString().trim();
+        Toast.makeText(getApplicationContext(), selected_answer, Toast.LENGTH_SHORT).show();
         text_temp.setBackgroundTintList(null);
         text_temp = tv;
         tv.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.BG));
