@@ -10,29 +10,24 @@ import java.text.MessageFormat;
 public class WidgetControllereClass {
     private View view_progress;
     private TextView text_question_count;
-    private double scale = 0.04;
+    private double scale = 0;
     private int count = 1;
+    private long total_questions;
 
-    public WidgetControllereClass(View view_progress, TextView text_question_count) {
+    public WidgetControllereClass(View view_progress, TextView text_question_count, long total_questions) {
         this.view_progress = view_progress;
         this.text_question_count = text_question_count;
+        this.total_questions = total_questions;
+
     }
 
     public void updateProgress() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                text_question_count.setText(MessageFormat.format("{0}/25", count));
-                count++;
-                view_progress.animate().scaleX((float) scale).setDuration(700).setInterpolator(new OvershootInterpolator());
-//                view_progress.setScaleX((float) scale);
-                if (scale > 1) {
-                    return;
-                }
-                scale += 0.04;
-                updateProgress();
-            }
-        }, 1000);
+
+        scale += 1 / (float)total_questions;
+        text_question_count.setText(MessageFormat.format("{0}/{1}", count, total_questions));
+        count++;
+        view_progress.animate().scaleX((float) scale).setDuration(700).setInterpolator(new OvershootInterpolator());
+
     }
 
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -24,16 +25,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private View view_progress;
-    private TextView text_question, text_question_count, text_option1, text_option2, text_option3, text_option4, text_temp;
+    private TextView text_counter, text_score_percentage, text_question, text_question_count, text_option1, text_option2, text_option3, text_option4, text_temp;
     private CardView card_answer, card_questions, card_score;
     private ScrollView scroll_contents;
     private ProgressBar progress_score;
+    private Button button_play_again, button_quit;
     private String quizID, selected_answer = "";
     private int index = 0, score_progress = 0;
     private long total_questions = 0;
@@ -54,28 +57,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         text_option2 = findViewById(R.id.text_option2);
         text_option3 = findViewById(R.id.text_option3);
         text_option4 = findViewById(R.id.text_option4);
+        text_score_percentage = findViewById(R.id.text_score_percentage);
+        text_counter = findViewById(R.id.text_counter);
         card_answer = findViewById(R.id.card_answer);
         card_score = findViewById(R.id.card_score);
         progress_score = findViewById(R.id.progress_score);
         card_questions = findViewById(R.id.card_questions);
         scroll_contents = findViewById(R.id.scroll_contents);
+        button_play_again = findViewById(R.id.button_play_again);
+        button_quit = findViewById(R.id.button_quit);
 
         card_answer.setOnClickListener(this);
         text_option1.setOnClickListener(this);
         text_option2.setOnClickListener(this);
         text_option3.setOnClickListener(this);
         text_option4.setOnClickListener(this);
+        button_play_again.setOnClickListener(this);
+        button_quit.setOnClickListener(this);
 
         text_temp = text_option1;
-
-        new WidgetControllereClass(view_progress, text_question_count).updateProgress();
 
         arrayList = new ArrayList<>();
         user_answers = new ArrayList<>();
         correct_answers = new ArrayList<>();
 
         getQuizData();
-
 
     }
 
@@ -87,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 total_questions = snapshot.getChildrenCount();
+
+                text_question_count.setText(MessageFormat.format("0/{0}", total_questions));
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
@@ -123,6 +131,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        if (v == button_play_again) {
+            resetEverything();
+        }
+
+        if (v == button_quit) {
+            exitApp();
+        }
+
         if (v == text_option1) {
             handleClicks(text_option1);
         }
@@ -145,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             card_questions.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
+            new WidgetControllereClass(view_progress, text_question_count, total_questions).updateProgress();
+
             if (card_questions.getScaleX() == 1) {
                 card_questions.animate().scaleX(.3f).scaleY(.2f).setDuration(500).setInterpolator(new OvershootInterpolator());
                 scroll_contents.animate().alpha(0).setDuration(500);
@@ -154,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 card_questions.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new OvershootInterpolator());
                 scroll_contents.animate().alpha(1).setDuration(500);
 
+                user_answers.add(selected_answer);
+
+
                 //gets called when last index is reached...
                 if (index + 1 == total_questions) {
 
@@ -161,9 +182,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     databaseReference.child(quizID).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot dataSnapshot:snapshot.getChildren()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                 correct_answers.add(Objects.requireNonNull(dataSnapshot.getValue()).toString());
                             }
+                            makeScoreUIVisible();
                         }
 
                         @Override
@@ -172,23 +194,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
 
-                    makeScoreUIVisible();
                     return;
                 }
 
-                user_answers.add(selected_answer);
                 index++;
+                text_counter.setText(String.valueOf(index + 1));
                 assignDataToUI();
             }, 500);
         }
+    }
 
+    private void exitApp() {
+        finishAffinity();
+    }
+
+    private void resetEverything() {
+        text_question_count.setText(MessageFormat.format("0/{0}", total_questions));
+        index = 0;
+        assignDataToUI();
+        view_progress.setScaleX(0);
+        card_score.setVisibility(View.GONE);
     }
 
     private void makeScoreUIVisible() {
 
-        for (int i=0; i<correct_answers.size(); i++) {
+        for (int i = 0; i < correct_answers.size(); i++) {
 
-            //this portion is not working...for some reason. fix it for BDT 100.
             if (user_answers.get(i).equals(correct_answers.get(i))) {
 
                 score_progress += (100 / correct_answers.size());
@@ -196,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        text_score_percentage.setText(MessageFormat.format("{0}%", score_progress));
         card_score.setVisibility(View.VISIBLE);
 
 
