@@ -32,7 +32,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private View view_progress;
-    private TextView text_counter, text_score_percentage, text_question, text_question_count, text_option1, text_option2, text_option3, text_option4, text_temp;
+    private TextView text_message, text_counter, text_score_percentage, text_question, text_question_count, text_option1, text_option2, text_option3, text_option4, text_temp;
     private CardView card_answer, card_questions, card_score;
     private ScrollView scroll_contents;
     private ProgressBar progress_score;
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private long total_questions = 0;
     private ArrayList<QuizDataStructure> arrayList;
     private ArrayList<String> user_answers, correct_answers;
+    private WidgetControllereClass widgetControllereClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         text_option2 = findViewById(R.id.text_option2);
         text_option3 = findViewById(R.id.text_option3);
         text_option4 = findViewById(R.id.text_option4);
+        text_message = findViewById(R.id.text_message);
         text_score_percentage = findViewById(R.id.text_score_percentage);
         text_counter = findViewById(R.id.text_counter);
         card_answer = findViewById(R.id.card_answer);
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
 
+                widgetControllereClass = new WidgetControllereClass(view_progress, text_question_count, total_questions);
                 assignDataToUI();
 
             }
@@ -118,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+
+
     }
 
     private void assignDataToUI() {
@@ -161,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             card_questions.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-            new WidgetControllereClass(view_progress, text_question_count, total_questions).updateProgress();
+            widgetControllereClass.updateProgress();
 
             if (card_questions.getScaleX() == 1) {
                 card_questions.animate().scaleX(.3f).scaleY(.2f).setDuration(500).setInterpolator(new OvershootInterpolator());
@@ -211,8 +216,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void resetEverything() {
         text_question_count.setText(MessageFormat.format("0/{0}", total_questions));
         index = 0;
-        assignDataToUI();
+        score_progress = 0;
+        total_questions = 0;
+        user_answers.clear();
+        correct_answers.clear();
+        arrayList.clear();
+        getQuizData();
+//        assignDataToUI();
         view_progress.setScaleX(0);
+        text_counter.setText(String.valueOf(index + 1));
         card_score.setVisibility(View.GONE);
     }
 
@@ -230,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         text_score_percentage.setText(MessageFormat.format("{0}%", score_progress));
         card_score.setVisibility(View.VISIBLE);
 
-
         Toast.makeText(getApplicationContext(), String.valueOf(score_progress), Toast.LENGTH_SHORT).show();
 
         ObjectAnimator progressAnimator;
@@ -238,6 +249,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressAnimator.setDuration(1000);
         progressAnimator.setInterpolator(new OvershootInterpolator());
         progressAnimator.start();
+
+        displayMessage();
+
+    }
+
+    private void displayMessage() {
+
+        if (score_progress < 65) {
+            text_message.setText(R.string.good);
+            return;
+        }
+        if (score_progress < 80) {
+            text_message.setText(R.string.awesome);
+            return;
+        }
+        text_message.setText(R.string.best);
     }
 
     private void handleClicks(TextView tv) {

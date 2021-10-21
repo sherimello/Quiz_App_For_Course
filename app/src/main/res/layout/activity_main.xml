@@ -230,7 +230,10 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/progress_score"
                 android:layout_centerHorizontal="true"
-                android:layout_margin="17dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="17dp"
+                android:layout_marginBottom="17dp"
                 android:fontFamily="@font/montserrat"
                 android:text="@string/awesome"
                 android:textSize="27sp" />

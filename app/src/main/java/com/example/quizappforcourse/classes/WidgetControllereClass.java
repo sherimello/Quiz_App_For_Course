@@ -1,6 +1,5 @@
 package com.example.quizappforcourse.classes;
 
-import android.os.Handler;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
@@ -8,11 +7,11 @@ import android.widget.TextView;
 import java.text.MessageFormat;
 
 public class WidgetControllereClass {
-    private View view_progress;
-    private TextView text_question_count;
+    private final View view_progress;
+    private final TextView text_question_count;
     private double scale = 0;
     private int count = 1;
-    private long total_questions;
+    private final long total_questions;
 
     public WidgetControllereClass(View view_progress, TextView text_question_count, long total_questions) {
         this.view_progress = view_progress;
